@@ -1,0 +1,15 @@
+@LiftLog.Api_HostAddress = http://localhost:5198
+
+### Get exercises
+GET {{LiftLog.Api_HostAddress}}/api/exercises
+Accept: application/json
+
+###
+
+### Create exercise
+POST {{LiftLog.Api_HostAddress}}/api/exercises
+Content-Type: application/json
+
+{
+  "name": "Bench Press"
+}
