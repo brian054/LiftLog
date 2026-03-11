@@ -31,4 +31,6 @@ public class AppDbContext : DbContext
 
     // DbSet<Exercise> - EF sees this and knows to create a table named Exercises, plus map the Exercise.cs class properties to cols
     public DbSet<Exercise> Exercises => Set<Exercise>();
+    public DbSet<Workout> Workouts => Set<Workout>();
+    public DbSet<WorkoutExercise> WorkoutExercises => Set<WorkoutExercise>();
 }
