@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+
+type Workout = {
+  id: number;
+  name: string;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [workoutName, setWorkoutName] = useState("");
+  const [message, setMessage] = useState("");
+
+  const createWorkout = async () => {
+    if (!workoutName.trim()) {
+      setMessage("Please enter a workout name.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5198/api/workout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: workoutName }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create workout.");
+      }
+
+      const data: Workout = await response.json();
+
+      setMessage(`Created workout: ${data.name}`);
+      setWorkoutName("");
+    } catch (error) {
+      setMessage("Something went wrong while creating the workout.");
+      console.error(error);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: "2rem" }}>
+      <h1>Create Workout</h1>
+
+      <input
+        type="text"
+        placeholder="Enter workout name"
+        value={workoutName}
+        onChange={(e) => setWorkoutName(e.target.value)}
+      />
+
+      <button onClick={createWorkout}>Save Workout</button>
+
+      <p>{message}</p>
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,4 +1,6 @@
-Hmmmm.....
+Goal: Track my progressive overload training, cardio, yoga, and nutrition all in one web app.
+
+Goal platforms: All Browsers, IPhone, Android etc.
 
 # Flow for adding new Models, updating EF Core migrations folder, then update database:
 
@@ -11,6 +13,7 @@ To add new tables:
 
 # Random:
 
+To run webapp: `npm run dev`
 To run API: `dotnet run`
 
 To create new Controller classes quickly: `dotnet new class -n ExerciseController -o Controllers`
