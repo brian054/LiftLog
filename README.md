@@ -13,4 +13,6 @@ To add new tables:
 
 To run API: `dotnet run`
 
+To create new Controller classes quickly: `dotnet new class -n ExerciseController -o Controllers`
+
 api/Migrations folder: basically version control for our DB

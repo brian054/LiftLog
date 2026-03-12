@@ -16,7 +16,7 @@ public class WorkoutController : ControllerBase
         _context = context;
     }
 
-    // GET: api/workout
+    // GET
     [HttpGet]
     public async Task<IActionResult> GetWorkouts()
     {
