@@ -1,58 +1,64 @@
 import { useState } from "react";
 import "./App.css";
+import WorkoutList from "./components/WorkoutList";
+import WorkoutDetail from "./components/WorkoutDetail";
+import CreateWorkoutModal from "./components/CreateWorkoutModal";
+import CreateExerciseModal from "./components/CreateExerciseModal";
 
+// move out to Workout.tsx
 type Workout = {
   id: number;
   name: string;
 };
 
 function App() {
-  const [workoutName, setWorkoutName] = useState("");
-  const [message, setMessage] = useState("");
+  const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
+  const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
+  const [showCreateExerciseModal, setShowCreateExerciseModal] = useState(false);
+  const [refreshWorkouts, setRefreshWorkouts] = useState(false);
 
-  const createWorkout = async () => {
-    if (!workoutName.trim()) {
-      setMessage("Please enter a workout name.");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:5198/api/workout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: workoutName }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create workout.");
-      }
-
-      const data: Workout = await response.json();
-
-      setMessage(`Created workout: ${data.name}`);
-      setWorkoutName("");
-    } catch (error) {
-      setMessage("Something went wrong while creating the workout.");
-      console.error(error);
-    }
+  const handleWorkoutCreated = () => {
+    setRefreshWorkouts((prev) => !prev);
   };
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Create Workout</h1>
+      <h1>LiftLog</h1>
 
-      <input
-        type="text"
-        placeholder="Enter workout name"
-        value={workoutName}
-        onChange={(e) => setWorkoutName(e.target.value)}
-      />
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={() => setShowCreateWorkoutModal(true)}>
+          Create Workout
+        </button>
 
-      <button onClick={createWorkout}>Save Workout</button>
+        <button
+          onClick={() => setShowCreateExerciseModal(true)}
+          style={{ marginLeft: "0.5rem" }}
+        >
+          Create Exercise
+        </button>
+      </div>
 
-      <p>{message}</p>
+      <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+        <WorkoutList
+          onSelectWorkout={setSelectedWorkout}
+          refreshTrigger={refreshWorkouts}
+        />
+
+        <WorkoutDetail workout={selectedWorkout} />
+      </div>
+
+      {showCreateWorkoutModal && (
+        <CreateWorkoutModal
+          onClose={() => setShowCreateWorkoutModal(false)}
+          onCreated={handleWorkoutCreated}
+        />
+      )}
+
+      {showCreateExerciseModal && (
+        <CreateExerciseModal
+          onClose={() => setShowCreateExerciseModal(false)}
+        />
+      )}
     </div>
   );
 }
