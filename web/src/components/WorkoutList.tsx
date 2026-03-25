@@ -1,3 +1,6 @@
+/*
+ Just a list of your workouts, when you click the workout a detail page pops up
+*/
 import { useEffect, useState } from "react";
 
 type Workout = {

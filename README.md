@@ -13,6 +13,18 @@ To add new tables:
 
 # Random:
 
+TODO:
+
+1. Add Create Workout form + database and all
+2. Add a startup shell script to automate docker postgre startup, etc.
+
+Postgre:  
+`docker start liftlog-postgres`
+`docker stop liftlog-postgres`
+`docker restart liftlog-postgres`
+`docker ps` shows just running containers
+`docker ps -a` shows all containers
+
 To run webapp: `npm run dev`
 To run API: `dotnet run`
 

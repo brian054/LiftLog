@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import WorkoutList from "./components/WorkoutList";
 import WorkoutDetail from "./components/WorkoutDetail";
-import CreateWorkoutModal from "./components/CreateWorkoutModal";
-import CreateExerciseModal from "./components/CreateExerciseModal";
+import CreateWorkoutModal from "./components/CreateWorkout";
+import CreateExerciseModal from "./components/CreateExercise";
 
 // move out to Workout.tsx
 type Workout = {
@@ -11,7 +11,7 @@ type Workout = {
   name: string;
 };
 
-function App() {
+export default function App() {
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
   const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
   const [showCreateExerciseModal, setShowCreateExerciseModal] = useState(false);
@@ -63,4 +63,4 @@ function App() {
   );
 }
 
-export default App;
+//export default App;

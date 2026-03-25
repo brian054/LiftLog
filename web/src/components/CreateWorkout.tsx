@@ -1,3 +1,6 @@
+/*
+  To create a Workout - example: Workout A, Workout B, etc.
+*/
 import { useState } from "react";
 
 type Props = {
