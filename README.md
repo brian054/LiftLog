@@ -31,3 +31,21 @@ To run API: `dotnet run`
 To create new Controller classes quickly: `dotnet new class -n ExerciseController -o Controllers`
 
 api/Migrations folder: basically version control for our DB
+
+---
+
+## Local Dev Scripts
+
+This project includes PowerShell scripts to simplify local development.
+
+### Available scripts (commands assume you run them from project root)
+
+- `.\scripts\init.ps1`  
+  Starts Docker (if needed), Postgres, API, and web.
+
+- `.\scripts\reload.ps1`  
+  Starts API and web only.
+
+- `. .\load-dev-commands.ps1`
+  Load helper commands so you can run 'init' and 'reload' rather than typing './scripts/reload.ps1'
+  Note: working on a MacOS dev solution. There's probably an OS dependent way here that I'm not seeing yet.
