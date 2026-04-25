@@ -9,12 +9,19 @@
 #
 # For example I added this to my .vscode/settings.json on Windows
 # {
-#  "terminal.integrated.shellArgs.windows": [
-#    "-NoExit",
-#    "-Command",
-#    ". .\\load-dev-commands.ps1"
-#  ]
+#   "terminal.integrated.profiles.windows": {
+#     "PowerShell with Dev Commands": {
+#       "source": "PowerShell",
+#       "args": [
+#         "-NoExit",
+#         "-Command",
+#         ". .\\load-dev-commands.ps1"
+#       ]
+#     }
+#   },
+#   "terminal.integrated.defaultProfile.windows": "PowerShell with Dev Commands"
 # }
+#
 function init {
     .\scripts\init.ps1
 }
