@@ -16,7 +16,6 @@ public class ExerciseController : ControllerBase
         _context = context;
     }
 
-    // GET
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -24,7 +23,6 @@ public class ExerciseController : ControllerBase
         return Ok(items);
     }
 
-    // GET
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -36,7 +34,6 @@ public class ExerciseController : ControllerBase
         return Ok(item);
     }
 
-    // POST
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateExerciseRequest item)
     {
@@ -51,7 +48,6 @@ public class ExerciseController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise);
     }
 
-    // DELETE
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

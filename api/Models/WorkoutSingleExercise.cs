@@ -2,7 +2,7 @@ namespace LiftLog.Api.Models;
 
 // Represents one lift in a specific workout: specifies sets and reps
 // “DB Rear Delt Fly is in Workout A for 3 sets of 15”
-public class WorkoutExercise
+public class WorkoutSingleExercise
 {
     public int Id { get; set; }
 

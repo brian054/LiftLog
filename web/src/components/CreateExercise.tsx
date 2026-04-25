@@ -7,6 +7,7 @@ type Props = {
   onClose: () => void;
 };
 
+// not technically a modal yet, but we'll get there lol
 function CreateExerciseModal({ onClose }: Props) {
   const [name, setName] = useState("");
 

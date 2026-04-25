@@ -16,7 +16,6 @@ public class WorkoutExerciseController : ControllerBase
         _context = context;
     }
 
-    // GET
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -24,7 +23,6 @@ public class WorkoutExerciseController : ControllerBase
         return Ok(items);
     }
 
-    // GET
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -36,16 +34,15 @@ public class WorkoutExerciseController : ControllerBase
         return Ok(item);
     }
 
-    // POST
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateWorkoutExerciseRequest item)
     {
-        var workoutExercise = new WorkoutExercise
+        var workoutExercise = new WorkoutSingleExercise
         {
             Workout = item.Workout
         };
 
-        _context.WorkoutExercises.Add(workoutExercise);
+        _context.WorkoutSingleExercises.Add(workoutExercise);
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetById), new { id = workoutExercise.Id }, workoutExercise);
