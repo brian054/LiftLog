@@ -7,5 +7,5 @@ while (!(docker info 2>$null)) {
 }
 
 docker start liftlog-postgres | Out-Null
-Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd "$PWD\api"; dotnet run'
+Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd "$PWD\api"; dotnet watch run'
 Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd "$PWD\web"; npm run dev'

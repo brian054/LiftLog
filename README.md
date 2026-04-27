@@ -26,7 +26,7 @@ Postgre:
 `docker ps -a` shows all containers
 
 To run webapp: `npm run dev`
-To run API: `dotnet run`
+To run API: `dotnet watch run` (hot reload) : `dotnet run`
 
 To create new Controller classes quickly: `dotnet new class -n ExerciseController -o Controllers`
 
