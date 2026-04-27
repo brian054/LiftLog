@@ -9,13 +9,17 @@
 #
 # For example I added this to my .vscode/settings.json on Windows
 # {
+#   "terminal.integrated.enablePersistentSessions": false,
+
 #   "terminal.integrated.profiles.windows": {
 #     "PowerShell with Dev Commands": {
 #       "source": "PowerShell",
 #       "args": [
 #         "-NoExit",
+#         "-ExecutionPolicy",
+#         "Bypass",
 #         "-Command",
-#         ". .\\load-dev-commands.ps1"
+#         ". 'WholePath:\\LiftLog\\load-dev-commands.ps1'"
 #       ]
 #     }
 #   },
@@ -23,7 +27,7 @@
 # }
 #
 function init {
-    .\scripts\init.ps1
+    & "$PSScriptRoot\scripts\init.ps1"
 }
 
 function reload {
