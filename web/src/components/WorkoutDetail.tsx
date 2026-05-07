@@ -1,12 +1,7 @@
 /*
  This is where the details for the specific workout live, sets and reps, form video/link, etc.
 */
-
-// move Workout to a Workout.tsx file, repeated 3 times now
-type Workout = {
-  id: number;
-  name: string;
-};
+import type { Workout } from "../types/workout";
 
 type Props = {
   workout: Workout | null;
@@ -19,7 +14,6 @@ export default function WorkoutDetail({ workout }: Props) {
 
   /*
     Workout details will go here section - TODO: Display exercises in workout, or if none "no exercises to show...add some!"
-    
   */
 
   return (

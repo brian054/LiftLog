@@ -3,11 +3,17 @@
 */
 import { useState } from "react";
 
+// "This component expects to receive an object with a property called onClose, and onClose must be a function that takes no parameters and returns nothing."
 type Props = {
   onClose: () => void;
 };
 
-// not technically a modal yet, but we'll get there lol
+/*
+  function CreateExerciseModal({ onClose }: Props)
+  is shorthand for this: 
+  function CreateExerciseModal(props: Props) {
+    const onClose = props.onClose;
+*/
 function CreateExerciseModal({ onClose }: Props) {
   const [name, setName] = useState("");
 

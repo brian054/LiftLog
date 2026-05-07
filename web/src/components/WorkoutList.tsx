@@ -2,12 +2,7 @@
  Just a list of your workouts, when you click the workout a detail page pops up
 */
 import { useEffect, useState } from "react";
-
-type Workout = {
-  // move this out
-  id: number;
-  name: string;
-};
+import type { Workout } from "../types/workout";
 
 type Props = {
   onSelectWorkout: (workout: Workout) => void;
@@ -32,9 +27,10 @@ function WorkoutList({ onSelectWorkout, refreshTrigger }: Props) {
     }
   };
 
+  // Fetch workouts on first render and whenever App toggles refreshTrigger.
   useEffect(() => {
     fetchWorkouts();
-  }, [refreshTrigger]);
+  }, [refreshTrigger]); // translation: run this effect any time refreshTrigger changes
 
   return (
     <div>

@@ -4,12 +4,7 @@ import WorkoutList from "./components/WorkoutList";
 import WorkoutDetail from "./components/WorkoutDetail";
 import CreateWorkoutModal from "./components/CreateWorkout";
 import CreateExerciseModal from "./components/CreateExercise";
-
-// move out to Workout.tsx
-type Workout = {
-  id: number;
-  name: string;
-};
+import type { Workout } from "./types/workout";
 
 export default function App() {
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
@@ -18,7 +13,7 @@ export default function App() {
   const [refreshWorkouts, setRefreshWorkouts] = useState(false);
 
   const handleWorkoutCreated = () => {
-    setRefreshWorkouts((prev) => !prev);
+    setRefreshWorkouts((prev) => !prev); // we flip the boolean, the useEffect in WorkoutDetails gets called, which GET's the list of workouts
   };
 
   return (
