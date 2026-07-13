@@ -27,11 +27,11 @@
 # }
 #
 function init {
-    & (Join-Path $PSScriptRoot 'scripts/init.ps1')
+    npm run dev
 }
 
 function reload {
-    & (Join-Path $PSScriptRoot 'scripts/reload.ps1')
+    npm run dev:apps
 }
 
 function api {

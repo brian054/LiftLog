@@ -35,11 +35,14 @@ public class WorkoutExerciseController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateWorkoutExerciseRequest item)
+    public async Task<IActionResult> Create([FromBody] CreateWorkoutExerciseRequest request)
     {
         var workoutExercise = new WorkoutSingleExercise
         {
-            Workout = item.Workout
+            WorkoutId = request.WorkoutId,
+            ExerciseId = request.ExerciseId,
+            Sets = request.Sets,
+            Reps = request.Reps
         };
 
         _context.WorkoutSingleExercises.Add(workoutExercise);
@@ -67,5 +70,8 @@ public class WorkoutExerciseController : ControllerBase
 // DTO - move out soon
 public class CreateWorkoutExerciseRequest
 {
-    public Workout? Workout { get; set; }
+    public int WorkoutId { get; set; }
+    public int ExerciseId { get; set; }
+    public int Sets { get; set; }
+    public int Reps { get; set; }
 }

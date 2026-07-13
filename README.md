@@ -27,9 +27,6 @@ Named volume: `liftlog-postgres-data`
 `docker ps` shows just running containers  
 `docker ps -a` shows all containers
 
-To run webapp: `npm run dev`  
-To run API: `dotnet watch run` (hot reload) or `dotnet run`
-
 To create new Controller classes quickly: `dotnet new class -n ExerciseController -o Controllers`
 
 api/Migrations folder: basically version control for our DB
@@ -53,41 +50,96 @@ From the project root:
 cp api/appsettings.Development.example.json api/appsettings.Development.json
 docker compose up -d
 dotnet tool restore
-cd api && dotnet restore && dotnet ef database update
-cd ../web && npm install
+cd api && dotnet restore && dotnet ef database update && cd ..
+npm install
+npm install --prefix web
 ```
 
 `api/appsettings.Development.json` is gitignored. Keep your real local connection string there.
 
+### Morning startup
+
+After a reboot, you usually only need one command from the project root:
+
+```bash
+npm run dev
+```
+
+Typical morning flow:
+
+1. Turn on your computer
+2. Open Docker Desktop and wait until it is running
+3. Open a terminal in the project root
+4. Run `npm run dev`
+
+That one command will:
+
+- verify Docker is running
+- start the existing `liftlog-postgres` container, or create it once if needed
+- verify `api/appsettings.Development.json` exists
+- start the API with `dotnet watch run`
+- start the frontend with `npm run dev`
+- stream prefixed logs from both processes in the same terminal
+
+Open the app at `http://localhost:5173`.
+
+To stop everything for the day, press `Ctrl+C` in that terminal. This stops the API and frontend only. Postgres keeps running in Docker, which is fine.
+
+### Restart API and frontend during the day
+
+If Postgres is already running and you only need to restart the app processes, use:
+
+```bash
+npm run dev:apps
+```
+
+Use this after:
+
+- pressing `Ctrl+C`
+- closing the dev terminal
+- wanting a clean restart without touching Postgres
+
+If you only need one process, you can still run them independently:
+
+```bash
+cd api && dotnet watch run
+cd web && npm run dev
+```
+
 ### Daily development
 
-**macOS / Linux**
+`npm run dev` is the main command. It runs `scripts/prepare-dev.mjs` first, then starts the API and frontend together.
+
+To inspect only the startup checks without launching the apps:
 
 ```bash
-./scripts/init.sh
+node scripts/prepare-dev.mjs
 ```
 
-Starts Postgres, then prints the manual API and frontend commands.
-
-App only (Postgres already running):
+macOS alternative for the full stack:
 
 ```bash
-./scripts/reload.sh
+./scripts/dev.sh
 ```
 
-**Windows PowerShell**
+This will:
+
+- start the existing `liftlog-postgres` container, or create it once with `docker compose up -d`
+- run the API with `dotnet watch run`
+- run the frontend with `npm run dev`
+- stream prefixed logs from both processes
+- stop both processes when you press `Ctrl+C`
+
+For app-only restarts, see [Restart API and frontend during the day](#restart-api-and-frontend-during-the-day).
+
+Windows PowerShell equivalents:
 
 ```powershell
 .\scripts\init.ps1
-```
-
-Starts Postgres and launches API and frontend in separate terminal windows.
-
-App only:
-
-```powershell
 .\scripts\reload.ps1
 ```
+
+`.\scripts\reload.ps1` runs `npm run dev:apps`.
 
 Optional helper commands:
 
@@ -99,11 +151,7 @@ api
 web
 ```
 
-### Manual fallback (always valid)
-
-```bash
-docker start liftlog-postgres
-```
+### Run API or frontend independently
 
 API:
 

@@ -1,0 +1,11 @@
+{
+  "name": "liftlog",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/prepare-dev.mjs && concurrently -k -n api,web -c blue,green \"dotnet watch run --project api/LiftLog.Api.csproj\" \"npm run dev --prefix web\"",
+    "dev:apps": "concurrently -k -n api,web -c blue,green \"dotnet watch run --project api/LiftLog.Api.csproj\" \"npm run dev --prefix web\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
