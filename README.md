@@ -2,6 +2,32 @@ Goal: Track my progressive overload training, cardio, yoga, and nutrition all in
 
 Goal platforms: All Browsers, IPhone, Android etc.
 
+## Data model
+
+LiftLog stores lifting data in three PostgreSQL tables:
+
+| Table | Represents | Example |
+|-------|------------|---------|
+| **Workouts** | A workout template or plan | "Workout A", "Push Day" |
+| **Exercises** | Global exercise catalog (reusable across workouts) | "Bench Press", "Hammer Curls" |
+| **WorkoutSingleExercises** | One exercise inside one workout, with programming | "In Workout A, Bench Press is 3×8" |
+
+**Relationships:**
+
+- A **Workout** has many **WorkoutSingleExercises**
+- An **Exercise** can appear in many workouts (via join rows)
+- **WorkoutSingleExercises** links a workout and an exercise, and stores **Sets**, **Reps**, and **SortOrder**
+
+**Key columns:**
+
+- `Workouts`: `Id`, `Name`
+- `Exercises`: `Id`, `Name`, `FormLink` (optional form video URL — not in the UI yet)
+- `WorkoutSingleExercises`: `Id`, `WorkoutId`, `ExerciseId`, `Sets`, `Reps`, `SortOrder`
+
+**Example:** Workout A contains DB Bench Press (3 sets × 8 reps) and Tricep Pushdown (3 sets × 12 reps).
+
+---
+
 # Flow for adding new Models, updating EF Core migrations folder, then update database:
 
 To add new tables:
@@ -12,10 +38,6 @@ To add new tables:
 4. Apply to Database: `dotnet ef database update`, applies migration and creates the db tables + schema from the model
 
 # Random:
-
-TODO:
-
-1. Add Create Workout form + database and all
 
 PostgreSQL container: `liftlog-postgres`  
 Host port: `5433` (maps to container port `5432`)  
