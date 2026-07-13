@@ -1,5 +1,5 @@
 # This file defines local PowerShell helper commands like:
-#   init, rerun, etc.
+#   init, reload, api, web
 #
 # To load these commands in a PowerShell terminal:
 #   . .\load-dev-commands.ps1
@@ -10,7 +10,7 @@
 # For example I added this to my .vscode/settings.json on Windows
 # {
 #   "terminal.integrated.enablePersistentSessions": false,
-
+#
 #   "terminal.integrated.profiles.windows": {
 #     "PowerShell with Dev Commands": {
 #       "source": "PowerShell",
@@ -27,19 +27,19 @@
 # }
 #
 function init {
-    & "$PSScriptRoot\scripts\init.ps1"
+    & (Join-Path $PSScriptRoot 'scripts/init.ps1')
 }
 
 function reload {
-    .\scripts\reload.ps1
+    & (Join-Path $PSScriptRoot 'scripts/reload.ps1')
 }
 
 function api {
-    Set-Location .\api
-    dotnet run
+    Set-Location (Join-Path $PSScriptRoot 'api')
+    dotnet watch run
 }
 
 function web {
-    Set-Location .\web
+    Set-Location (Join-Path $PSScriptRoot 'web')
     npm run dev
 }

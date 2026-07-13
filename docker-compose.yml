@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: liftlog-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: liftlog
+      POSTGRES_PASSWORD: liftlog
+      POSTGRES_DB: liftlog
+    volumes:
+      - liftlog-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  liftlog-postgres-data:
+    name: liftlog-postgres-data

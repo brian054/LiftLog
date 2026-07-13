@@ -16,17 +16,19 @@ To add new tables:
 TODO:
 
 1. Add Create Workout form + database and all
-2. Add a startup shell script to automate docker postgre startup, etc.
 
-Postgre:  
-`docker start liftlog-postgres`
-`docker stop liftlog-postgres`
-`docker restart liftlog-postgres`
-`docker ps` shows just running containers
+PostgreSQL container: `liftlog-postgres`  
+Host port: `5433` (maps to container port `5432`)  
+Named volume: `liftlog-postgres-data`
+
+`docker start liftlog-postgres`  
+`docker stop liftlog-postgres`  
+`docker restart liftlog-postgres`  
+`docker ps` shows just running containers  
 `docker ps -a` shows all containers
 
-To run webapp: `npm run dev`
-To run API: `dotnet watch run` (hot reload) : `dotnet run`
+To run webapp: `npm run dev`  
+To run API: `dotnet watch run` (hot reload) or `dotnet run`
 
 To create new Controller classes quickly: `dotnet new class -n ExerciseController -o Controllers`
 
@@ -34,18 +36,97 @@ api/Migrations folder: basically version control for our DB
 
 ---
 
-## Local Dev Scripts
+## Local development
 
-This project includes PowerShell scripts to simplify local development.
+### URLs
 
-### Available scripts (commands assume you run them from project root)
+- API: `http://localhost:5198`
+- Swagger UI: `http://localhost:5198/`
+- Frontend: `http://localhost:5173`
+- PostgreSQL: `localhost:5433`
 
-- `.\scripts\init.ps1`  
-  Starts Docker (if needed), Postgres, API, and web.
+### First-time setup
 
-- `.\scripts\reload.ps1`  
-  Starts API and web only.
+From the project root:
 
-- `. .\load-dev-commands.ps1`
-  Load helper commands so you can run 'init' and 'reload' rather than typing './scripts/reload.ps1'
-  Note: working on a MacOS dev solution. There's probably an OS dependent way here that I'm not seeing yet.
+```bash
+cp api/appsettings.Development.example.json api/appsettings.Development.json
+docker compose up -d
+dotnet tool restore
+cd api && dotnet restore && dotnet ef database update
+cd ../web && npm install
+```
+
+`api/appsettings.Development.json` is gitignored. Keep your real local connection string there.
+
+### Daily development
+
+**macOS / Linux**
+
+```bash
+./scripts/init.sh
+```
+
+Starts Postgres, then prints the manual API and frontend commands.
+
+App only (Postgres already running):
+
+```bash
+./scripts/reload.sh
+```
+
+**Windows PowerShell**
+
+```powershell
+.\scripts\init.ps1
+```
+
+Starts Postgres and launches API and frontend in separate terminal windows.
+
+App only:
+
+```powershell
+.\scripts\reload.ps1
+```
+
+Optional helper commands:
+
+```powershell
+. .\load-dev-commands.ps1
+init
+reload
+api
+web
+```
+
+### Manual fallback (always valid)
+
+```bash
+docker start liftlog-postgres
+```
+
+API:
+
+```bash
+cd api
+dotnet watch run
+```
+
+Frontend:
+
+```bash
+cd web
+npm run dev
+```
+
+### Database safety
+
+Routine startup should only start the existing container or run `docker compose up -d`.
+
+Do not use these during normal development unless you intentionally want to wipe local data:
+
+```bash
+docker compose down -v
+docker rm -v liftlog-postgres
+docker volume rm liftlog-postgres-data
+```
