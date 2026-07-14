@@ -11,8 +11,10 @@ type Props = {
 
 function WorkoutList({ onSelectWorkout, refreshTrigger }: Props) {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchWorkouts = async () => {
+    setError(null);
     try {
       const response = await fetch("http://localhost:5198/api/workout");
 
@@ -24,6 +26,8 @@ function WorkoutList({ onSelectWorkout, refreshTrigger }: Props) {
       setWorkouts(data);
     } catch (error) {
       console.error(error);
+      setWorkouts([]);
+      setError("Can't load workouts. Is the API running and is PostgreSQL up?");
     }
   };
 
@@ -35,6 +39,8 @@ function WorkoutList({ onSelectWorkout, refreshTrigger }: Props) {
   return (
     <div>
       <h2>Your Workouts</h2>
+
+      {error && <p style={{ color: "crimson" }}>{error}</p>}
 
       <ul>
         {workouts.map((workout) => (

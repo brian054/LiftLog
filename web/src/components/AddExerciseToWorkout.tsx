@@ -15,9 +15,11 @@ function AddExerciseToWorkout({ workoutId, onClose, onAdded }: Props) {
   const [newExerciseName, setNewExerciseName] = useState("");
   const [sets, setSets] = useState("3");
   const [reps, setReps] = useState("8");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchExercises = async () => {
+      setError(null);
       try {
         const response = await fetch(`${API_BASE}/api/exercise`);
 
@@ -29,6 +31,7 @@ function AddExerciseToWorkout({ workoutId, onClose, onAdded }: Props) {
         setExercises(data);
       } catch (err) {
         console.error(err);
+        setError("Can't load exercises. Is the API running and is PostgreSQL up?");
       }
     };
 
@@ -36,6 +39,7 @@ function AddExerciseToWorkout({ workoutId, onClose, onAdded }: Props) {
   }, []);
 
   const handleSave = async () => {
+    setError(null);
     try {
       let exerciseId = selectedExerciseId;
 
@@ -82,12 +86,15 @@ function AddExerciseToWorkout({ workoutId, onClose, onAdded }: Props) {
       onClose();
     } catch (err) {
       console.error(err);
+      setError("Couldn't add exercise to workout. Is the API running and is PostgreSQL up?");
     }
   };
 
   return (
     <div>
       <h2>Add Exercise</h2>
+
+      {error && <p style={{ color: "crimson" }}>{error}</p>}
 
       <div>
         <label>Choose existing exercise</label>

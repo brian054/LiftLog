@@ -10,10 +10,12 @@ type Props = {
 
 function CreateWorkoutModal({ onClose, onCreated }: Props) {
   const [name, setName] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const createWorkout = async () => {
     if (!name.trim()) return;
 
+    setError(null);
     try {
       const response = await fetch("http://localhost:5198/api/workout", {
         method: "POST",
@@ -31,12 +33,15 @@ function CreateWorkoutModal({ onClose, onCreated }: Props) {
       onClose(); // close modal
     } catch (err) {
       console.error(err);
+      setError("Couldn't save workout. Is the API running and is PostgreSQL up?");
     }
   };
 
   return (
     <div>
       <h2>Create Workout</h2>
+
+      {error && <p style={{ color: "crimson" }}>{error}</p>}
 
       <input
         type="text"

@@ -14,10 +14,12 @@ type Props = {
 export default function WorkoutDetail({ workout }: Props) {
   const [detail, setDetail] = useState<Workout | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [showAddExercise, setShowAddExercise] = useState(false);
 
   const fetchWorkoutDetail = useCallback(async (workoutId: number) => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch(`${API_BASE}/api/workout/${workoutId}`);
 
@@ -30,6 +32,7 @@ export default function WorkoutDetail({ workout }: Props) {
     } catch (error) {
       console.error(error);
       setDetail(null);
+      setError("Can't load this workout. Is the API running and is PostgreSQL up?");
     } finally {
       setLoading(false);
     }
@@ -58,6 +61,8 @@ export default function WorkoutDetail({ workout }: Props) {
   return (
     <div>
       <h2>{workout.name}</h2>
+
+      {error && <p style={{ color: "crimson" }}>{error}</p>}
 
       {exercises.length === 0 ? (
         <p>No exercises to show...add some!</p>
