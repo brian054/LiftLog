@@ -87,16 +87,17 @@ After a reboot, you usually only need one command from the project root:
 npm run dev
 ```
 
+You don't have to start Docker Desktop yourself — this script will do it for you if it isn't already running. If Docker is already open, it just continues.
+
 Typical morning flow:
 
 1. Turn on your computer
-2. Open Docker Desktop and wait until it is running
-3. Open a terminal in the project root
-4. Run `npm run dev`
+2. Open a terminal in the project root
+3. Run `npm run dev`
 
 That one command will:
 
-- verify Docker is running
+- verify Docker is running (or launch Docker Desktop on macOS and wait until it's ready)
 - start the existing `liftlog-postgres` container, or create it once if needed
 - verify `api/appsettings.Development.json` exists
 - start the API with `dotnet watch run`
@@ -146,6 +147,7 @@ macOS alternative for the full stack:
 
 This will:
 
+- start Docker Desktop if needed (you don't have to open it yourself)
 - start the existing `liftlog-postgres` container, or create it once with `docker compose up -d`
 - run the API with `dotnet watch run`
 - run the frontend with `npm run dev`
